@@ -7,7 +7,7 @@ import (
 )
 
 type MST_USERS struct {
-	User_Id       uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4();primaryKey"`
+	User_Id       uuid.UUID `gorm:"type:uuid;primaryKey"`
 	Name          string    `gorm:"type:varchar(30)"`
 	User_Name     string    `json:"userName" gorm:"type:varchar(30);unique"`
 	Password      string    `gorm:"type:varchar(100)"`
