@@ -6,13 +6,12 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"github.com/pataru/backend/configs/clients"
 	"github.com/pataru/backend/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 )
-
-var DB *gorm.DB
 
 func ConnectDB() {
 	err := godotenv.Load()
@@ -30,7 +29,7 @@ func ConnectDB() {
 		os.Getenv("DB_PORT"),
 	)
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+	clients.DATABASE, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			TablePrefix:   "PATARU.",
 			SingularTable: true,
@@ -41,10 +40,9 @@ func ConnectDB() {
 		log.Fatal("Error connecting to database", err)
 	}
 
-	DB = db
 	fmt.Println("Database connected successfully!")
 
-	DB.AutoMigrate(
+	clients.DATABASE.AutoMigrate(
 		models.MST_USERS{},
 		models.MST_ROLES{},
 	)
